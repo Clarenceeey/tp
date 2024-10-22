@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static seedu.address.logic.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.Messages.MESSAGE_UNKNOWN_COMMAND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_COURSE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_DATE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_TIME;
 import static seedu.address.testutil.Assert.assertThrows;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_CONSULT;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_STUDENT;
@@ -35,6 +38,7 @@ import seedu.address.model.AddressBook;
 import seedu.address.model.consultation.Consultation;
 import seedu.address.model.consultation.Date;
 import seedu.address.model.consultation.Time;
+import seedu.address.model.course.Course;
 import seedu.address.model.student.IsStudentOfCoursePredicate;
 import seedu.address.model.student.Name;
 import seedu.address.model.student.NameContainsKeywordsPredicate;
@@ -60,7 +64,9 @@ public class AddressBookParserTest {
     public void parseCommand_addConsult() throws Exception {
         Consultation consult = new ConsultationBuilder().build();
         AddConsultCommand command = (AddConsultCommand) parser.parseCommand(
-                AddConsultCommand.COMMAND_WORD + " d/" + consult.getDate() + " t/" + consult.getTime());
+                AddConsultCommand.COMMAND_WORD + " " + PREFIX_DATE + consult.getDate() + " "
+                        + PREFIX_TIME + consult.getTime() + " "
+                        + PREFIX_COURSE + consult.getCourse());
         assertEquals(new AddConsultCommand(consult), command);
     }
 
@@ -69,9 +75,18 @@ public class AddressBookParserTest {
         AddressBook addressBook = new AddressBook();
 
         // Create consultations with different dates
-        Consultation consult1 = new Consultation(new Date("2024-10-20"), new Time("14:00"), List.of());
-        Consultation consult2 = new Consultation(new Date("2024-09-15"), new Time("10:00"), List.of());
-        Consultation consult3 = new Consultation(new Date("2024-11-05"), new Time("16:00"), List.of());
+        Consultation consult1 = new Consultation(new Date("2024-10-20"),
+                new Time("14:00"),
+                new Course("CS2103T"),
+                List.of());
+        Consultation consult2 = new Consultation(new Date("2024-09-15"),
+                new Time("10:00"),
+                new Course("CS2100"),
+                List.of());
+        Consultation consult3 = new Consultation(new Date("2024-11-05"),
+                new Time("16:00"),
+                new Course("CS2040S"),
+                List.of());
 
         // Add consultations to the address book
         addressBook.addConsult(consult1);
