@@ -1,6 +1,8 @@
 package seedu.address.testutil;
 
-import java.util.List;
+import static java.util.Objects.requireNonNull;
+
+import java.util.ArrayList;
 
 import seedu.address.model.consultation.Consultation;
 import seedu.address.model.consultation.Date;
@@ -19,8 +21,8 @@ public class ConsultationBuilder {
     public static final String DEFAULT_COURSE = "CS2103T";
     private Date date;
     private Time time;
+    private final ArrayList<Student> students;
     private Course course;
-    private List<Student> students;
 
     /**
      * Creates a {@code ConsultationBuilder} with the default details.
@@ -29,7 +31,7 @@ public class ConsultationBuilder {
         date = new Date(DEFAULT_DATE);
         time = new Time(DEFAULT_TIME);
         course = new Course(DEFAULT_COURSE);
-        students = List.of();
+        students = new ArrayList<>();
     }
 
     /**
@@ -39,7 +41,7 @@ public class ConsultationBuilder {
         date = consultationToCopy.getDate();
         time = consultationToCopy.getTime();
         course = consultationToCopy.getCourse();
-        students = consultationToCopy.getStudents();
+        students = new ArrayList<>(consultationToCopy.getStudents());
     }
 
     /**
@@ -63,6 +65,15 @@ public class ConsultationBuilder {
      */
     public ConsultationBuilder withCourse(String course) {
         this.course = new Course(course);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Student} of the {@code Consultation} that we are building.
+     */
+    public ConsultationBuilder withStudent(Student student) {
+        requireNonNull(student);
+        this.students.add(student);
         return this;
     }
 
