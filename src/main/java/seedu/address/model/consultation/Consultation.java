@@ -28,8 +28,8 @@ public class Consultation {
      *                 This list can be empty but must not be null.
      * @throws NullPointerException if {@code date} or {@code time} is null.
      */
-    public Consultation(Date date, Time time, List<Student> students, Course course) {
-        requireAllNonNull(date, time);
+    public Consultation(Date date, Time time, Course course, List<Student> students) {
+        requireAllNonNull(date, time, course);
         this.date = date;
         this.time = time;
         this.course = course;
@@ -122,17 +122,18 @@ public class Consultation {
         Consultation otherConsultation = (Consultation) other;
         return date.equals(otherConsultation.date)
                 && time.equals(otherConsultation.time)
+                && course.equals(otherConsultation.course)
                 && students.equals(otherConsultation.students);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, time, students);
+        return Objects.hash(date, time, course, students);
     }
 
     @Override
     public String toString() {
-        return String.format("Consultation[date=%s, time=%s, students=%s]", date, time, students);
+        return String.format("Consultation[date=%s, time=%s, course=%s, students=%s]", date, time, course, students);
     }
 
     /**
@@ -144,7 +145,7 @@ public class Consultation {
     private void requireAllNonNull(Object... objects) {
         for (Object obj : objects) {
             if (obj == null) {
-                throw new NullPointerException("Fields date and time must be non-null");
+                throw new NullPointerException("Fields date, time and course must be non-null");
             }
         }
     }
