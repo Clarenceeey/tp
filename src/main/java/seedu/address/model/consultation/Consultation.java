@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import seedu.address.model.course.Course;
 import seedu.address.model.student.Student;
 
 /**
@@ -15,6 +16,7 @@ public class Consultation {
 
     private final Date date;
     private final Time time;
+    private final Course course;
     private final List<Student> students;
 
     /**
@@ -26,10 +28,11 @@ public class Consultation {
      *                 This list can be empty but must not be null.
      * @throws NullPointerException if {@code date} or {@code time} is null.
      */
-    public Consultation(Date date, Time time, List<Student> students) {
+    public Consultation(Date date, Time time, List<Student> students, Course course) {
         requireAllNonNull(date, time);
         this.date = date;
         this.time = time;
+        this.course = course;
 
         this.students = students != null ? new ArrayList<>(students) : new ArrayList<>();
     }
@@ -51,6 +54,16 @@ public class Consultation {
     public Time getTime() {
         return time;
     }
+
+    /**
+     * Returns the course the consultation is for.
+     *
+     * @return The course the consultation is for.
+     */
+    public Course getCourse() {
+        return course;
+    }
+
 
     /**
      * Returns an immutable list of students attending the consultation.
