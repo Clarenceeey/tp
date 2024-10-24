@@ -52,6 +52,8 @@ import seedu.address.testutil.StudentUtil;
 
 public class AddressBookParserTest {
 
+
+
     private final AddressBookParser parser = new AddressBookParser();
 
     @Test
@@ -106,9 +108,12 @@ public class AddressBookParserTest {
         AddressBook addressBook = new AddressBook();
 
         // Consultations with different dates and times
-        Consultation consult1 = new Consultation(new Date("2024-07-20"), new Time("14:00"), List.of());
-        Consultation consult2 = new Consultation(new Date("2024-07-20"), new Time("09:00"), List.of());
-        Consultation consult3 = new Consultation(new Date("2024-07-19"), new Time("15:00"), List.of());
+        Consultation consult1 = new Consultation(new Date("2024-07-20"), new Time("14:00"),
+                new Course("CS2040S"), List.of());
+        Consultation consult2 = new Consultation(new Date("2024-07-20"), new Time("09:00"),
+                new Course("CS2040S"), List.of());
+        Consultation consult3 = new Consultation(new Date("2024-07-19"), new Time("15:00"),
+                new Course("CS2040S"), List.of());
 
         // Add consultations
         addressBook.addConsult(consult1);
