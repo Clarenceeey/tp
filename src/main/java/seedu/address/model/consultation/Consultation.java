@@ -51,6 +51,7 @@ public class Consultation {
         requireNonNull(consultation);
         this.date = new Date(consultation.getDate().getValue());
         this.time = new Time(consultation.getTime().getValue());
+        this.course = new Course(consultation.getCourse().toString());
         this.students = new ArrayList<>(consultation.getStudents());
     }
 
