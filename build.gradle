@@ -45,18 +45,17 @@ dependencies {
     String javaFxVersion = '17.0.7'
 
     // JavaFX dependencies for specific platforms
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-base', version: javaFxVersion, classifier: 'mac-aarch64'  // Changed to mac-aarch64 for Apple Silicon
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-controls', version: javaFxVersion, classifier: 'mac-aarch64'  // Changed to mac-aarch64 for Apple Silicon
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-fxml', version: javaFxVersion, classifier: 'mac-aarch64'  // Changed to mac-aarch64 for Apple Silicon
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'win'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
-    implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'mac-aarch64'  // Changed to mac-aarch64 for Apple Silicon
+    def platforms = ['win', 'linux', 'mac-aarch64']
+    def javafxModules = ['base', 'controls', 'fxml', 'graphics', 'web', 'media']  // Added 'media'
+
+    platforms.each { platform ->
+        javafxModules.each { module ->
+            implementation "org.openjfx:javafx-${module}:${javaFxVersion}:${platform}"
+        }
+    }
+
+    // CommonMark library for rendering Markdown
+    implementation 'org.commonmark:commonmark:0.17.2'
 
     // Other dependencies
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.0'
@@ -69,10 +68,13 @@ dependencies {
 
 shadowJar {
     archiveFileName = 'tahub.jar'
+    mergeServiceFiles()
 }
 
 run {
     enableAssertions = true
+    jvmArgs += [
+            '--module-path', configurations.runtimeClasspath.asPath,
+            '--add-modules', 'javafx.controls,javafx.fxml,javafx.web,javafx.media'  // Added 'javafx.media'
+    ]
 }
-
-defaultTasks 'clean', 'test'
