@@ -14,7 +14,6 @@
       <VBox alignment="CENTER" fx:id="helpMessageContainer" spacing="10">
         <children>
           <Label fx:id="helpMessage" text="Label" />
-          <Button fx:id="copyButton" mnemonicParsing="false" onAction="#copyUrl" text="Copy URL" />
           <WebView fx:id="webView" />
         </children>
         <padding>
